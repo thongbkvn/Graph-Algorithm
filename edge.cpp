@@ -1,5 +1,5 @@
 #include "edge.h"
-#include "node.h"
+#include "vertex.h"
 
 #include <math.h>
 
@@ -8,23 +8,23 @@
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static double TwoPi = 2.0 * Pi;
 
-Edge::Edge(Node *sourceNode, Node *destNode)
+Edge::Edge(Vertex *sourceVertex, Vertex *destVertex)
     : arrowSize(10)
 {
     setAcceptedMouseButtons(0);
-    source = sourceNode;
-    dest = destNode;
+    source = sourceVertex;
+    dest = destVertex;
     source->addEdge(this);
     dest->addEdge(this);
     adjust();
 }
 
-Node *Edge::sourceNode() const
+Vertex *Edge::sourceVertex() const
 {
     return source;
 }
 
-Node *Edge::destNode() const
+Vertex *Edge::destVertex() const
 {
     return dest;
 }

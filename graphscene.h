@@ -2,7 +2,7 @@
 #define GRAPHSCENE_H
 #include <QGraphicsItem>
 #include <QGraphicsScene>
-class Node;
+class Vertex;
 class GraphScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -22,18 +22,20 @@ signals:
     void itemInserted(QGraphicsItem *mouseEvent);
     void itemSelected(QGraphicsItem *mouseEvent);
 
-    /*
+
 protected:
     //New
     void mousePressEvent(QGraphicsSceneMouseEvent *);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
-*/
+
 
 private:
     int vertexIndex;
     int nEdge;
     bool m_modified;
+
+    Vertex *firstVertex(QPointF);
 
     QPointF startPoint;
 

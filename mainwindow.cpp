@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QActionGroup>
 #include "graphwidget.h"
+#include "graphscene.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -26,15 +27,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSelect_triggered()
 {
-    qDebug() << "on action Select tringgered";
+    graphWidget->m_scene->setMode(GraphScene::MoveItem);
 }
 
 void MainWindow::on_actionDrawVertex_triggered()
 {
-    qDebug() << "on action DrawVertex tringgered";
+    graphWidget->m_scene->setMode(GraphScene::InsertVertex);
 }
 
 void MainWindow::on_actionDrawEdge_triggered()
 {
-    qDebug() << "on action Draw Edge tringgered";
+    graphWidget->m_scene->setMode(GraphScene::InsertEdge);
 }

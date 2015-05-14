@@ -4,7 +4,6 @@
 
 #include <QGraphicsView>
 class GraphScene;
-class Node;
 
 class GraphWidget : public QGraphicsView
 {
@@ -14,6 +13,7 @@ public:
     GraphWidget(QWidget *parent = 0);
 
     void itemMoved();
+    friend class MainWindow;
 
 public slots:
     void shuffle();
@@ -21,7 +21,6 @@ public slots:
     void zoomOut();
 
 protected:
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
 #ifndef QT_NO_WHEELEVENT
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
@@ -30,9 +29,10 @@ protected:
 
     void scaleView(qreal scaleFactor);
 
+    void resizeEvent(QResizeEvent *event);
+
 private:
     int timerId;
-    Node *centerNode;
     GraphScene *m_scene;
 };
 

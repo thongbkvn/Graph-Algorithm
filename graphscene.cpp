@@ -1,49 +1,133 @@
 #include "graphscene.h"
 #include <QGraphicsScene>
 #include <QGraphicsItem>
-#include "node.h"
+#include "vertex.h"
 #include "edge.h"
 #include <QWidget>
+#include <QDebug>
+#include <QGraphicsSceneMouseEvent>
 
 GraphScene::GraphScene(QWidget *parent) : QGraphicsScene(parent)
 {
+    mode = MoveItem;
     setItemIndexMethod(QGraphicsScene::NoIndex);
-    setSceneRect(-200, -200, 400, 400);
-    Node *node1 = new Node;
-    Node *node2 = new Node;
-    Node *node3 = new Node;
-    Node *node4 = new Node;
-    Node *node6 = new Node;
-    Node *node7 = new Node;
-    Node *node8 = new Node;
-    Node *node9 = new Node;
-    addItem(node1);
-    addItem(node2);
-    addItem(node3);
-    addItem(node4);
-    addItem(node6);
-    addItem(node7);
-    addItem(node8);
-    addItem(node9);
-    addItem(new Edge(node1, node2));
-    addItem(new Edge(node2, node3));
-    //addItem(new Edge(node2, centerNode));
-    addItem(new Edge(node3, node6));
-    addItem(new Edge(node4, node1));
-    //addItem(new Edge(node4, centerNode));
-    //addItem(new Edge(centerNode, node6));
-    //addItem(new Edge(centerNode, node8));
-    addItem(new Edge(node6, node9));
-    addItem(new Edge(node7, node4));
-    addItem(new Edge(node8, node7));
-    addItem(new Edge(node9, node8));
+    //setSceneRect(-200, -200, 400, 400);
+    Vertex *vertex1 = new Vertex(10, 20);
+    Vertex *vertex2 = new Vertex(15, 30);
+    Vertex *vertex3 = new Vertex(5, 200);
+    Vertex *vertex4 = new Vertex(70, 130);
+    Vertex *vertex6 = new Vertex(80, 12);
+    Vertex *vertex7 = new Vertex(100, 200);
+    Vertex *vertex8 = new Vertex(-50, 50);
+    Vertex *vertex9 = new Vertex(-100, -50);
+    addItem(vertex1);
+    addItem(vertex2);
+    addItem(vertex3);
+    addItem(vertex4);
+    addItem(vertex6);
+    addItem(vertex7);
+    addItem(vertex8);
+    addItem(vertex9);
+    addItem(new Edge(vertex1, vertex2));
+    addItem(new Edge(vertex2, vertex3));
+    addItem(new Edge(vertex3, vertex6));
+    addItem(new Edge(vertex4, vertex1));
+    addItem(new Edge(vertex6, vertex9));
+    addItem(new Edge(vertex7, vertex4));
+    addItem(new Edge(vertex8, vertex7));
+    addItem(new Edge(vertex9, vertex8));
 
-    node1->setPos(-50, -50);
-    node2->setPos(0, -50);
-    node3->setPos(50, -50);
-    node4->setPos(-50, 0);
-    node6->setPos(50, 0);
-    node7->setPos(-50, 50);
-    node8->setPos(0, 50);
-    node9->setPos(50, 50);
 }
+
+
+void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    qDebug() << "GraphicsScene mouse Press event";
+    if (mouseEvent->button() != Qt::LeftButton)
+        return;
+
+    QPointF pos = mouseEvent->scenePos();
+    Vertex *vertex;
+    qDebug() << mode;
+    switch(mode)
+    {
+    case InsertVertex:
+        vertex = new Vertex(pos.x(), pos.y());
+        addItem(vertex);
+        qDebug() << "Vertex Inserted";
+        emit itemInserted(vertex);
+        break;
+    case InsertEdge:
+        line = new QGraphicsLineItem(QLineF(pos, pos));
+        line->setPen(QPen(Qt::black, 2));
+        addItem(line);
+    default:
+        break;
+    }
+
+    QGraphicsScene::mousePressEvent(mouseEvent);
+}
+
+void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+
+    if (mode == InsertEdge && line != 0)
+    {
+        QLineF newLine(line->line().p1(), mouseEvent->scenePos());
+        line->setLine(newLine);
+    }
+    //Chu y doan nay
+    else if (mode == MoveItem)
+        QGraphicsScene::mouseMoveEvent(mouseEvent);
+
+}
+
+void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+
+    if (line != 0 && mode == InsertEdge)
+    {
+        Vertex *sourceVertex = firstVertex(line->line().p1()),
+                *destVertex = firstVertex(line->line().p2());
+        removeItem(line);
+        delete line;
+
+        if (sourceVertex && destVertex && (sourceVertex != destVertex))
+        {
+            bool vertexsConnected = false;
+            foreach (Edge *edge, sourceVertex->edges())
+            {
+                if (edge->destVertex() == destVertex)
+                {
+                    vertexsConnected = true;
+                    break;
+                }
+            }
+
+
+            if (!vertexsConnected )
+            {
+                Edge *edge = new Edge(sourceVertex, destVertex);
+                if (edge != NULL)
+                {
+                    edge->setZValue(-1000.0);
+                    addItem(edge);
+                    edge->adjust();
+                }
+            }
+        }
+
+    }
+    line = 0;
+    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+}
+
+Vertex* GraphScene::firstVertex(QPointF pos) {
+    QList<QGraphicsItem*> selectedItems = items(pos);
+    QList<QGraphicsItem*>::iterator li;
+    for(li = selectedItems.begin(); li < selectedItems.end(); ++li)
+        if((*li)->type() == Vertex::Type)
+            return qgraphicsitem_cast<Vertex*>(*li);
+    return 0;
+}
+

@@ -1,6 +1,6 @@
 #include "graphwidget.h"
 #include "edge.h"
-#include "node.h"
+#include "vertex.h"
 #include "graphscene.h"
 
 #include <math.h>
@@ -11,10 +11,8 @@ GraphWidget::GraphWidget(QWidget *parent)
     : QGraphicsView(parent), timerId(0)
 {
     m_scene = new GraphScene(this);
-    /*
-    scene->setItemIndexMethod(QGraphicsScene::NoIndex);
-    scene->setSceneRect(-200, -200, 400, 400);
-    */
+    m_scene->setSceneRect(-width()/2, -height()/2, width(), height());
+
     setScene(m_scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
@@ -22,55 +20,7 @@ GraphWidget::GraphWidget(QWidget *parent)
     setTransformationAnchor(AnchorUnderMouse);
     scale(qreal(0.8), qreal(0.8));
     setMinimumSize(400, 400);
-    setWindowTitle(tr("Elastic Nodes"));
-
-    centerNode = new Node;
-
-    m_scene->addItem(centerNode);
-/*
-    Node *node1 = new Node(this);
-    Node *node2 = new Node(this);
-    Node *node3 = new Node(this);
-    Node *node4 = new Node(this);
-    centerNode = new Node(this);
-    Node *node6 = new Node(this);
-    Node *node7 = new Node(this);
-    Node *node8 = new Node(this);
-    Node *node9 = new Node(this);
-    scene->addItem(node1);
-    scene->addItem(node2);
-    scene->addItem(node3);
-    scene->addItem(node4);
-    scene->addItem(centerNode);
-    scene->addItem(node6);
-    scene->addItem(node7);
-    scene->addItem(node8);
-    scene->addItem(node9);
-    scene->addItem(new Edge(node1, node2));
-    scene->addItem(new Edge(node2, node3));
-    scene->addItem(new Edge(node2, centerNode));
-    scene->addItem(new Edge(node3, node6));
-    scene->addItem(new Edge(node4, node1));
-    scene->addItem(new Edge(node4, centerNode));
-    scene->addItem(new Edge(centerNode, node6));
-    scene->addItem(new Edge(centerNode, node8));
-    scene->addItem(new Edge(node6, node9));
-    scene->addItem(new Edge(node7, node4));
-    scene->addItem(new Edge(node8, node7));
-    scene->addItem(new Edge(node9, node8));
-
-    node1->setPos(-50, -50);
-    node2->setPos(0, -50);
-    node3->setPos(50, -50);
-    node4->setPos(-50, 0);
-    centerNode->setPos(0, 0);
-    node6->setPos(50, 0);
-    node7->setPos(-50, 50);
-    node8->setPos(0, 50);
-    node9->setPos(50, 50);
-    */
-
-    centerNode->setPos(0, 0);
+    setWindowTitle(tr("Pham Van Thong"));
 }
 
 void GraphWidget::itemMoved()
@@ -79,52 +29,25 @@ void GraphWidget::itemMoved()
         timerId = startTimer(1000 / 25);
 }
 
-void GraphWidget::keyPressEvent(QKeyEvent *event)
-{
-    switch (event->key()) {
-    case Qt::Key_Up:
-        centerNode->moveBy(0, -20);
-        break;
-    case Qt::Key_Down:
-        centerNode->moveBy(0, 20);
-        break;
-    case Qt::Key_Left:
-        centerNode->moveBy(-20, 0);
-        break;
-    case Qt::Key_Right:
-        centerNode->moveBy(20, 0);
-        break;
-    case Qt::Key_Plus:
-        zoomIn();
-        break;
-    case Qt::Key_Minus:
-        zoomOut();
-        break;
-    case Qt::Key_Space:
-    case Qt::Key_Enter:
-        shuffle();
-        break;
-    default:
-        QGraphicsView::keyPressEvent(event);
-    }
-}
+
+
 
 void GraphWidget::timerEvent(QTimerEvent *event)
 {
     Q_UNUSED(event);
 
-    QList<Node *> nodes;
+    QList<Vertex *> vertexs;
     foreach (QGraphicsItem *item, scene()->items()) {
-        if (Node *node = qgraphicsitem_cast<Node *>(item))
-            nodes << node;
+        if (Vertex *vertex = qgraphicsitem_cast<Vertex *>(item))
+            vertexs << vertex;
     }
 
-    foreach (Node *node, nodes)
-        node->calculateForces();
+    foreach (Vertex *vertex, vertexs)
+        vertex->calculateForces();
 
     bool itemsMoved = false;
-    foreach (Node *node, nodes) {
-        if (node->advance())
+    foreach (Vertex *vertex, vertexs) {
+        if (vertex->advance())
             itemsMoved = true;
     }
 
@@ -190,7 +113,7 @@ void GraphWidget::scaleView(qreal scaleFactor)
 void GraphWidget::shuffle()
 {
     foreach (QGraphicsItem *item, scene()->items()) {
-        if (qgraphicsitem_cast<Node *>(item))
+        if (qgraphicsitem_cast<Vertex *>(item))
             item->setPos(-150 + qrand() % 300, -150 + qrand() % 300);
     }
 }
@@ -203,4 +126,11 @@ void GraphWidget::zoomIn()
 void GraphWidget::zoomOut()
 {
     scaleView(1 / qreal(1.2));
+}
+
+void GraphWidget::resizeEvent(QResizeEvent *event) {
+    event->accept();
+    int w = std::max(event->size().width(), event->oldSize().width());
+    int h = std::max(event->size().height(), event->oldSize().height());
+    scene()->setSceneRect(-w/2,-h/2,w,h);
 }

@@ -2,7 +2,7 @@ QT += widgets
 
 HEADERS += \
         edge.h \
-        node.h \
+        vertex.h \
         graphwidget.h \
     mainwindow.h \
     graphscene.h
@@ -10,7 +10,7 @@ HEADERS += \
 SOURCES += \
         edge.cpp \
         main.cpp \
-        node.cpp \
+        vertex.cpp \
         graphwidget.cpp \
     mainwindow.cpp \
     graphscene.cpp
