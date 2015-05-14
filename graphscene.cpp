@@ -48,7 +48,6 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
     QPointF pos = mouseEvent->scenePos();
     Vertex *vertex;
-    qDebug() << mode;
     switch(mode)
     {
     case InsertVertex:

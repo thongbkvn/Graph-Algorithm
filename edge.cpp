@@ -8,9 +8,12 @@
 static const double Pi = 3.14159265358979323846264338327950288419717;
 static double TwoPi = 2.0 * Pi;
 
+QColor Edge::EdgeColor[4] = {Qt::black, Qt::blue, Qt::green, Qt::red};
+
 Edge::Edge(Vertex *sourceVertex, Vertex *destVertex)
     : arrowSize(10)
 {
+    edgeState = Relaxed;
     setAcceptedMouseButtons(0);
     source = sourceVertex;
     dest = destVertex;
@@ -72,7 +75,7 @@ void Edge::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
         return;
 
     // Draw the line itself
-    painter->setPen(QPen(Qt::black, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    painter->setPen(QPen(EdgeColor[edgeState], 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     painter->drawLine(line);
 
     // Draw the arrows

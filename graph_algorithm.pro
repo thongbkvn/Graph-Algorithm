@@ -16,7 +16,7 @@ SOURCES += \
     graphscene.cpp
 
 # install
-target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/elasticnodes
+target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/graph_algorithm
 INSTALLS += target
 
 FORMS += \
