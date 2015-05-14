@@ -95,7 +95,9 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         if (sourceVertex && destVertex && (sourceVertex != destVertex))
         {
             bool vertexsConnected = false;
-            foreach (Edge *edge, sourceVertex->edges())
+
+
+            foreach (Edge *edge, sourceVertex->outEdges())
             {
                 if (edge->destVertex() == destVertex)
                 {
@@ -104,9 +106,10 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
                 }
             }
 
-
+            //Neu khong phai la canh da co thi them canh vao
             if (!vertexsConnected )
             {
+                //Edge *edge = algorithm->newEdge(sourceVertex, destVertex);
                 Edge *edge = new Edge(sourceVertex, destVertex);
                 if (edge != NULL)
                 {
