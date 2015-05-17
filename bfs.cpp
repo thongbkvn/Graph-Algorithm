@@ -17,7 +17,7 @@ void BFSAnimation::generateAnimationList()
         if (v->getId() == 1)
             sourceVertex = v;
     std::queue<Vertex*> BFSQueue;
-    BFSQueue.push(v);
+    BFSQueue.push(sourceVertex);
     sourceVertex->setColor(Vertex::Visited);
 
     while (!BFSQueue.empty())

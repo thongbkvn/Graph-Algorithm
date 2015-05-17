@@ -175,7 +175,7 @@ void Algorithm::finishAnimation()
 void Algorithm::play()
 {
 
-    generateBFSAnimationList();
+    generateAnimationList();
     qDebug() << "Algorithm Play";
     if (!isStarted)
     {
