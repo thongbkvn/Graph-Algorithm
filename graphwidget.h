@@ -32,6 +32,7 @@ protected:
 
 private:
     int timerId;
+
 };
 
 #endif // GRAPHWIDGET_H

@@ -2,6 +2,7 @@
 #define GRAPHSCENE_H
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+class Algorithm;
 class Vertex;
 class GraphScene : public QGraphicsScene
 {
@@ -9,7 +10,7 @@ class GraphScene : public QGraphicsScene
 
 public:
     enum Mode {InsertVertex, InsertEdge, MoveItem};
-    GraphScene(QWidget *parent = 0);
+    GraphScene(Algorithm *algorithm, QWidget *parent = 0);
 
     Mode mode;
 
@@ -40,5 +41,6 @@ private:
     QPointF startPoint;
 
     QGraphicsLineItem *line;
+    Algorithm *algorithm;
 };
 #endif // GRAPHSCENE_H

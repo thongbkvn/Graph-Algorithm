@@ -33,11 +33,13 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
-    enum VertexColor{InitColor, VisitedColor, SourceColor, DestColor, DiscoveredColor};
+    enum VertexColor{Init, Discovered,  Visited, Source, Destination};
     static QColor vertexColor[5][2];
 
     VertexColor color() const {return m_color;}
     void setColor(VertexColor);
+
+    int getId() const {return id;}
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;

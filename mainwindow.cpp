@@ -3,12 +3,14 @@
 #include <QActionGroup>
 #include "graphwidget.h"
 #include "graphscene.h"
+#include "algorithm.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    algorithm = Algorithm::getAlgorithm(Algorithm::BFS, this);
     ui->setupUi(this);
     modeActionGroup = new QActionGroup(this);
     modeActionGroup->addAction(ui->actionSelect);
@@ -19,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     graphWidget = new GraphWidget;
     setCentralWidget(graphWidget);
 
-    m_scene = new GraphScene(this);
+    m_scene = new GraphScene(algorithm, this);
     m_scene->setSceneRect(-width()/2, -height()/2, width(), height());
 
     graphWidget->setScene(m_scene);

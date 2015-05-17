@@ -1,4 +1,5 @@
 #include "graphscene.h"
+#include "algorithm.h"
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include "vertex.h"
@@ -7,11 +8,13 @@
 #include <QDebug>
 #include <QGraphicsSceneMouseEvent>
 
-GraphScene::GraphScene(QWidget *parent) : QGraphicsScene(parent)
+GraphScene::GraphScene(Algorithm *algorithm, QWidget *parent) : QGraphicsScene(parent)
 {
+    this->algorithm = algorithm;
     mode = MoveItem;
     setItemIndexMethod(QGraphicsScene::NoIndex);
     //setSceneRect(-200, -200, 400, 400);
+    /*
     Vertex *vertex1 = new Vertex(10, 20);
     Vertex *vertex2 = new Vertex(15, 30);
     Vertex *vertex3 = new Vertex(5, 200);
@@ -36,6 +39,7 @@ GraphScene::GraphScene(QWidget *parent) : QGraphicsScene(parent)
     addItem(new Edge(vertex7, vertex4));
     addItem(new Edge(vertex8, vertex7));
     addItem(new Edge(vertex9, vertex8));
+    */
 
 }
 
@@ -53,7 +57,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     case InsertVertex:
         vertex = new Vertex(pos.x(), pos.y());
         addItem(vertex);
-        qDebug() << "Vertex Inserted";
+        algorithm->addVertex(vertex);
         emit itemInserted(vertex);
         break;
     case InsertEdge:
@@ -108,12 +112,12 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
             //Neu khong phai la canh da co thi them canh vao
             if (!vertexsConnected )
             {
-                //Edge *edge = algorithm->newEdge(sourceVertex, destVertex);
-                Edge *edge = new Edge(sourceVertex, destVertex);
+                Edge *edge = algorithm->newEdge(sourceVertex, destVertex);
                 if (edge != NULL)
                 {
                     edge->setZValue(-1000.0);
                     addItem(edge);
+                    algorithm->incEdge();
                     edge->adjust();
                 }
             }

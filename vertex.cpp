@@ -32,7 +32,7 @@ Vertex::Vertex(qreal x, qreal y)
     setCacheMode(DeviceCoordinateCache);
     setZValue(-1);
 
-    m_color = InitColor;
+    m_color = Init;
 }
 
 void Vertex::addInEdge(Edge *edge)

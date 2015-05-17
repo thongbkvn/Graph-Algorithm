@@ -6,6 +6,7 @@
 
 class GraphScene;
 class GraphWidget;
+class Algorithm;
 namespace Ui {
 class MainWindow;
 }
@@ -31,6 +32,7 @@ private:
 
     GraphWidget *graphWidget;
     GraphScene *m_scene;
+    Algorithm *algorithm;
 
 };
 

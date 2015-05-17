@@ -9,6 +9,7 @@
 #include <QHash>
 #include <QToolBar>
 #include <QTimerEvent>
+#include <queue>
 
 #include <QPropertyAnimation>
 #include <QDebug>
@@ -20,6 +21,8 @@ Algorithm::Algorithm(MainWindow *mainWindow):
     createActions();
     createToolBar();
 }
+
+
 
 void Algorithm::createActions()
 {
@@ -76,11 +79,13 @@ Algorithm* Algorithm::getAlgorithm(AlgType algtype,  MainWindow *mainWindow)
 void Algorithm::addVertex(Vertex *vertex)
 {
     vertexList << vertex;
+    qDebug() << "Vertex Insterted";
 }
 
 void Algorithm::removeVertex(Vertex *vertex)
 {
     vertexList.removeOne(vertex);
+    qDebug() << "Vertex Removed";
 }
 
 void Algorithm::initAllItem()
@@ -88,7 +93,7 @@ void Algorithm::initAllItem()
     for (Vertex *v: vertexList)
     {
         if (v != sourceVertex)
-            v->setColor(Vertex::InitColor);
+            v->setColor(Vertex::Init);
          for (Edge *e: v->outEdges())
              e->setState(Edge::Init);
     }
@@ -101,13 +106,13 @@ void Algorithm::setSource()
     if (sourceVertex != selectedVertex)
     {
         if (sourceVertex != NULL)
-            sourceVertex->setColor(Vertex::InitColor);
+            sourceVertex->setColor(Vertex::Init);
         sourceVertex = selectedVertex;
-        sourceVertex->setColor(Vertex::SourceColor);
+        sourceVertex->setColor(Vertex::Source);
     }
     else
     {
-        sourceVertex->setColor(Vertex::InitColor);
+        sourceVertex->setColor(Vertex::Init);
         sourceVertex = NULL;
     }
 }
@@ -119,13 +124,13 @@ void Algorithm::setDest()
     if (destVertex != selectedVertex)
     {
         if (destVertex != NULL)
-            destVertex->setColor(Vertex::InitColor);
+            destVertex->setColor(Vertex::Init);
         destVertex = selectedVertex;
-        destVertex->setColor(Vertex::DestColor);
+        destVertex->setColor(Vertex::Destination);
     }
     else
     {
-        destVertex->setColor(Vertex::InitColor);
+        destVertex->setColor(Vertex::Init);
         destVertex = NULL;
     }
 }
@@ -169,12 +174,13 @@ void Algorithm::finishAnimation()
 
 void Algorithm::play()
 {
+
+    generateBFSAnimationList();
     qDebug() << "Algorithm Play";
     if (!isStarted)
     {
        {
            //mainWindow->diableEditting();
-          generateAnimationList();
          /*
            if (animationList.count() == 0)
             {

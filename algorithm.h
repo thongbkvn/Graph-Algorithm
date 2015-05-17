@@ -57,6 +57,7 @@ protected:
 
     void timerEvent(QTimerEvent *) override;
     virtual void generateAnimationList() = 0;
+    void generateBFSAnimationList(); //debug
 
     QList<std::shared_ptr<QAbstractAnimation> > animationList;
     QList<std::shared_ptr<QAbstractAnimation> >::iterator currentAnimation;
@@ -69,6 +70,7 @@ protected:
 protected slots:
     void finishAnimation();
     void initAllItem();
+
 
 private:
     int delay;
