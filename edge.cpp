@@ -13,8 +13,8 @@ QColor Edge::EdgeColor[4] = {Qt::black, Qt::blue, Qt::green, Qt::red};
 Edge::Edge(Vertex *sourceVertex, Vertex *destVertex)
     : arrowSize(10)
 {
-    edgeState = Relaxed;
-    setAcceptedMouseButtons(0);
+    edgeState = Init;
+    setAcceptedMouseButtons(Qt::LeftButton);
     source = sourceVertex;
     dest = destVertex;
     source->addOutEdge(this);

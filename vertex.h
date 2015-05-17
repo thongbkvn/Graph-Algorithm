@@ -9,8 +9,10 @@ class Edge;
 class GraphWidget;
 class QGraphicsSceneMouseEvent;
 
-class Vertex : public QGraphicsItem
+class Vertex : public QGraphicsObject
 {
+    Q_OBJECT
+    Q_PROPERTY(VertexColor color READ color WRITE setColor)
 public:
     Vertex(qreal x, qreal y);
 
@@ -31,7 +33,7 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
-    enum VertexColor{InitColor, VisitedColor, SourceColr, DestColor, DiscoveredColor};
+    enum VertexColor{InitColor, VisitedColor, SourceColor, DestColor, DiscoveredColor};
     static QColor vertexColor[5][2];
 
     VertexColor color() const {return m_color;}

@@ -1,11 +1,13 @@
 QT += widgets
-
+CONFIG += c++11
 HEADERS += \
         edge.h \
         vertex.h \
         graphwidget.h \
     mainwindow.h \
-    graphscene.h
+    graphscene.h \
+    algorithm.h \
+    bfs.h
 
 SOURCES += \
         edge.cpp \
@@ -13,7 +15,9 @@ SOURCES += \
         vertex.cpp \
         graphwidget.cpp \
     mainwindow.cpp \
-    graphscene.cpp
+    graphscene.cpp \
+    algorithm.cpp \
+    bfs.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/graph_algorithm

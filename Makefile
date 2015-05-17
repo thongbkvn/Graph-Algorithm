@@ -14,7 +14,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-CXXFLAGS      = -m64 -pipe -O2 -Wall -W -D_REENTRANT -fPIE $(DEFINES)
+CXXFLAGS      = -m64 -pipe -O2 -std=c++0x -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 INCPATH       = -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64
 QMAKE         = /usr/lib/x86_64-linux-gnu/qt5/bin/qmake
 DEL_FILE      = rm -f
@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = graph_algorithm1.0.0
-DISTDIR = /home/thongbkvn/thong/.tmp/graph_algorithm1.0.0
+DISTDIR = /home/thongbkvn/Graph-Algorithm/.tmp/graph_algorithm1.0.0
 LINK          = g++
 LFLAGS        = -m64 -Wl,-O1
 LIBS          = $(SUBLIBS) -L/usr/X11R6/lib64 -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
@@ -53,20 +53,32 @@ SOURCES       = edge.cpp \
 		vertex.cpp \
 		graphwidget.cpp \
 		mainwindow.cpp \
-		graphscene.cpp qrc_images.cpp \
+		graphscene.cpp \
+		algorithm.cpp \
+		bfs.cpp qrc_images.cpp \
+		moc_edge.cpp \
+		moc_vertex.cpp \
 		moc_graphwidget.cpp \
 		moc_mainwindow.cpp \
-		moc_graphscene.cpp
+		moc_graphscene.cpp \
+		moc_algorithm.cpp \
+		moc_bfs.cpp
 OBJECTS       = edge.o \
 		main.o \
 		vertex.o \
 		graphwidget.o \
 		mainwindow.o \
 		graphscene.o \
+		algorithm.o \
+		bfs.o \
 		qrc_images.o \
+		moc_edge.o \
+		moc_vertex.o \
 		moc_graphwidget.o \
 		moc_mainwindow.o \
-		moc_graphscene.o
+		moc_graphscene.o \
+		moc_algorithm.o \
+		moc_bfs.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -114,6 +126,7 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/c++11.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resources.prf \
@@ -129,12 +142,16 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		vertex.h \
 		graphwidget.h \
 		mainwindow.h \
-		graphscene.h edge.cpp \
+		graphscene.h \
+		algorithm.h \
+		bfs.h edge.cpp \
 		main.cpp \
 		vertex.cpp \
 		graphwidget.cpp \
 		mainwindow.cpp \
-		graphscene.cpp
+		graphscene.cpp \
+		algorithm.cpp \
+		bfs.cpp
 QMAKE_TARGET  = graph_algorithm
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = graph_algorithm
@@ -212,6 +229,7 @@ Makefile: graph_algorithm.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/c++11.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resources.prf \
@@ -276,6 +294,7 @@ Makefile: graph_algorithm.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/c++11.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resources.prf:
@@ -307,8 +326,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents images.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents edge.h vertex.h graphwidget.h mainwindow.h graphscene.h $(DISTDIR)/
-	$(COPY_FILE) --parents edge.cpp main.cpp vertex.cpp graphwidget.cpp mainwindow.cpp graphscene.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents edge.h vertex.h graphwidget.h mainwindow.h graphscene.h algorithm.h bfs.h $(DISTDIR)/
+	$(COPY_FILE) --parents edge.cpp main.cpp vertex.cpp graphwidget.cpp mainwindow.cpp graphscene.cpp algorithm.cpp bfs.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -367,17 +386,31 @@ qrc_images.cpp: images.qrc \
 		images/italic.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name images images.qrc -o qrc_images.cpp
 
-compiler_moc_header_make_all: moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp
+compiler_moc_header_make_all: moc_edge.cpp moc_vertex.cpp moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp moc_algorithm.cpp moc_bfs.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp
+	-$(DEL_FILE) moc_edge.cpp moc_vertex.cpp moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp moc_algorithm.cpp moc_bfs.cpp
+moc_edge.cpp: edge.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include edge.h -o moc_edge.cpp
+
+moc_vertex.cpp: vertex.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include vertex.h -o moc_vertex.cpp
+
 moc_graphwidget.cpp: graphwidget.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/thong -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include graphwidget.h -o moc_graphwidget.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include graphwidget.h -o moc_graphwidget.cpp
 
 moc_mainwindow.cpp: mainwindow.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/thong -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
 
 moc_graphscene.cpp: graphscene.h
-	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/thong -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include graphscene.h -o moc_graphscene.cpp
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include graphscene.h -o moc_graphscene.cpp
+
+moc_algorithm.cpp: algorithm.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include algorithm.h -o moc_algorithm.cpp
+
+moc_bfs.cpp: algorithm.h \
+		edge.h \
+		bfs.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include bfs.h -o moc_bfs.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -427,8 +460,28 @@ graphscene.o: graphscene.cpp graphscene.h \
 		edge.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o graphscene.o graphscene.cpp
 
+algorithm.o: algorithm.cpp algorithm.h \
+		mainwindow.h \
+		edge.h \
+		bfs.h \
+		vertex.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o algorithm.o algorithm.cpp
+
+bfs.o: bfs.cpp bfs.h \
+		algorithm.h \
+		edge.h \
+		mainwindow.h \
+		vertex.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bfs.o bfs.cpp
+
 qrc_images.o: qrc_images.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp
+
+moc_edge.o: moc_edge.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_edge.o moc_edge.cpp
+
+moc_vertex.o: moc_vertex.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_vertex.o moc_vertex.cpp
 
 moc_graphwidget.o: moc_graphwidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_graphwidget.o moc_graphwidget.cpp
@@ -438,6 +491,12 @@ moc_mainwindow.o: moc_mainwindow.cpp
 
 moc_graphscene.o: moc_graphscene.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_graphscene.o moc_graphscene.cpp
+
+moc_algorithm.o: moc_algorithm.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_algorithm.o moc_algorithm.cpp
+
+moc_bfs.o: moc_bfs.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bfs.o moc_bfs.cpp
 
 ####### Install
 

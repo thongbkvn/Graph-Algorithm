@@ -1,13 +1,16 @@
 #ifndef EDGE_H
 #define EDGE_H
 
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 #include <QColor>
 
 class Vertex;
 
-class Edge : public QGraphicsItem
+class Edge : public QGraphicsObject
 {
+    Q_OBJECT
+    Q_PROPERTY(EdgeState state READ state WRITE setState)
+    Q_ENUMS(EdgeState)
 public:
     Edge(Vertex *sourceVertex, Vertex *destVertex);
 
@@ -21,8 +24,8 @@ public:
 
     enum EdgeState {Init, Relaxed, InPath, Error};
     static QColor EdgeColor[4];
-    EdgeState color() const { return edgeState;}
-    void setColor(EdgeState state) {edgeState = state;}
+    EdgeState state() const { return edgeState;}
+    void setState(EdgeState state) {edgeState = state;}
 
 protected:
     QRectF boundingRect() const Q_DECL_OVERRIDE;

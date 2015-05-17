@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QActionGroup>
 
+class GraphScene;
 class GraphWidget;
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,7 @@ private:
     QActionGroup *modeActionGroup;
 
     GraphWidget *graphWidget;
+    GraphScene *m_scene;
 
 };
 

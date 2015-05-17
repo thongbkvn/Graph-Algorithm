@@ -32,7 +32,6 @@ protected:
 
 private:
     int timerId;
-    GraphScene *m_scene;
 };
 
 #endif // GRAPHWIDGET_H

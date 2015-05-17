@@ -18,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     graphWidget = new GraphWidget;
     setCentralWidget(graphWidget);
+
+    m_scene = new GraphScene(this);
+    m_scene->setSceneRect(-width()/2, -height()/2, width(), height());
+
+    graphWidget->setScene(m_scene);
 }
 
 MainWindow::~MainWindow()
@@ -27,15 +32,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionSelect_triggered()
 {
-    graphWidget->m_scene->setMode(GraphScene::MoveItem);
+    m_scene->setMode(GraphScene::MoveItem);
 }
 
 void MainWindow::on_actionDrawVertex_triggered()
 {
-    graphWidget->m_scene->setMode(GraphScene::InsertVertex);
+    m_scene->setMode(GraphScene::InsertVertex);
 }
 
 void MainWindow::on_actionDrawEdge_triggered()
 {
-    graphWidget->m_scene->setMode(GraphScene::InsertEdge);
+    m_scene->setMode(GraphScene::InsertEdge);
 }

@@ -10,10 +10,6 @@
 GraphWidget::GraphWidget(QWidget *parent)
     : QGraphicsView(parent), timerId(0)
 {
-    m_scene = new GraphScene(this);
-    m_scene->setSceneRect(-width()/2, -height()/2, width(), height());
-
-    setScene(m_scene);
     setCacheMode(CacheBackground);
     setViewportUpdateMode(BoundingRectViewportUpdate);
     setRenderHint(QPainter::Antialiasing);
