@@ -46,7 +46,6 @@ GraphScene::GraphScene(Algorithm *algorithm, QWidget *parent) : QGraphicsScene(p
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "GraphicsScene mouse Press event";
     if (mouseEvent->button() != Qt::LeftButton)
         return;
 

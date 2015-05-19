@@ -55,7 +55,8 @@ SOURCES       = edge.cpp \
 		mainwindow.cpp \
 		graphscene.cpp \
 		algorithm.cpp \
-		bfs.cpp qrc_images.cpp \
+		bfs.cpp \
+		animation.cpp qrc_images.cpp \
 		moc_edge.cpp \
 		moc_vertex.cpp \
 		moc_graphwidget.cpp \
@@ -71,6 +72,7 @@ OBJECTS       = edge.o \
 		graphscene.o \
 		algorithm.o \
 		bfs.o \
+		animation.o \
 		qrc_images.o \
 		moc_edge.o \
 		moc_vertex.o \
@@ -144,14 +146,16 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		mainwindow.h \
 		graphscene.h \
 		algorithm.h \
-		bfs.h edge.cpp \
+		bfs.h \
+		animation.h edge.cpp \
 		main.cpp \
 		vertex.cpp \
 		graphwidget.cpp \
 		mainwindow.cpp \
 		graphscene.cpp \
 		algorithm.cpp \
-		bfs.cpp
+		bfs.cpp \
+		animation.cpp
 QMAKE_TARGET  = graph_algorithm
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = graph_algorithm
@@ -326,8 +330,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents images.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents edge.h vertex.h graphwidget.h mainwindow.h graphscene.h algorithm.h bfs.h $(DISTDIR)/
-	$(COPY_FILE) --parents edge.cpp main.cpp vertex.cpp graphwidget.cpp mainwindow.cpp graphscene.cpp algorithm.cpp bfs.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents edge.h vertex.h graphwidget.h mainwindow.h graphscene.h algorithm.h bfs.h animation.h $(DISTDIR)/
+	$(COPY_FILE) --parents edge.cpp main.cpp vertex.cpp graphwidget.cpp mainwindow.cpp graphscene.cpp algorithm.cpp bfs.cpp animation.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -473,8 +477,12 @@ bfs.o: bfs.cpp bfs.h \
 		algorithm.h \
 		edge.h \
 		mainwindow.h \
-		vertex.h
+		vertex.h \
+		animation.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o bfs.o bfs.cpp
+
+animation.o: animation.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animation.o animation.cpp
 
 qrc_images.o: qrc_images.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp

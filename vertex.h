@@ -9,10 +9,12 @@ class Edge;
 class GraphWidget;
 class QGraphicsSceneMouseEvent;
 
+
 class Vertex : public QGraphicsObject
 {
     Q_OBJECT
     Q_PROPERTY(VertexColor color READ color WRITE setColor)
+    Q_ENUMS(VertexColor)
 public:
     Vertex(qreal x, qreal y);
 
@@ -33,13 +35,19 @@ public:
     QPainterPath shape() const Q_DECL_OVERRIDE;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
-    enum VertexColor{Init, Discovered,  Visited, Source, Destination};
+    enum VertexColor{Init, Visited,  Source, Destination, Discovered};
     static QColor vertexColor[5][2];
+
+
+    static int interconnect;
 
     VertexColor color() const {return m_color;}
     void setColor(VertexColor);
 
     int getId() const {return id;}
+
+    void setAssociate(int m) {m_associate = m;}
+    int associate() const {return m_associate;}
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
@@ -53,8 +61,9 @@ private:
     QList<Edge *> outEdgeList;
     QPointF newPos;
     static int vertexID;//new
-    int id;//new
 
+    int m_associate;
+    int id;//new
     VertexColor m_color;
 };
 

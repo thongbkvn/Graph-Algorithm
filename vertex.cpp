@@ -8,6 +8,7 @@
 #include <QStyleOption>
 
 int Vertex::vertexID = 0;//new
+int Vertex::interconnect = 0;
 
 QColor Vertex::vertexColor[5][2] = { { QColor(Qt::darkYellow).light(120),
                                         QColor(Qt::yellow).light(120) },
@@ -32,6 +33,7 @@ Vertex::Vertex(qreal x, qreal y)
     setCacheMode(DeviceCoordinateCache);
     setZValue(-1);
 
+    m_associate = 0;
     m_color = Init;
 }
 

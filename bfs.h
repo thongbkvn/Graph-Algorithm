@@ -17,6 +17,9 @@ public:
     Edge* newEdge(Vertex *, Vertex *) override;
 protected:
     void generateAnimationList() override;
+private:
+    void BFSVertex(Vertex *v);
+    void discoverVertex(Vertex *v);
 
 };
 

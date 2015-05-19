@@ -79,13 +79,11 @@ Algorithm* Algorithm::getAlgorithm(AlgType algtype,  MainWindow *mainWindow)
 void Algorithm::addVertex(Vertex *vertex)
 {
     vertexList << vertex;
-    qDebug() << "Vertex Insterted";
 }
 
 void Algorithm::removeVertex(Vertex *vertex)
 {
     vertexList.removeOne(vertex);
-    qDebug() << "Vertex Removed";
 }
 
 void Algorithm::initAllItem()
