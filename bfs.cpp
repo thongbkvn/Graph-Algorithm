@@ -6,6 +6,7 @@
 #include "animation.h"
 #include <QAbstractAnimation>
 #include <QParallelAnimationGroup>
+#include <QSequentialAnimationGroup>
 #include <QPropertyAnimation>
 #include <QMessageBox>
 #include <iostream>
@@ -16,13 +17,11 @@ BFSAnimation::BFSAnimation(MainWindow *mainWindow):Algorithm(mainWindow) {}
 
 void BFSAnimation::generateAnimationList()
 {
+    animationGroup = new QSequentialAnimationGroup;
     foreach (Vertex *v, vertexList)
         if (!v->associate())
             BFSVertex(v);
-    for (auto &animation : animationList)
-    {
-        connect(animation.get(), SIGNAL(finished()), this, SLOT(finishAnimation()));
-    }
+    animationGroup->start();
 }
 
 void BFSAnimation::BFSVertex(Vertex *v)
@@ -63,20 +62,22 @@ void BFSAnimation::discoverVertex(Vertex *v)
     if (v == sourceVertex)
         return;
 
-   auto parallelAnimation = std::shared_ptr<QParallelAnimationGroup>(new QParallelAnimationGroup);
+   //auto parallelAnimation = std::shared_ptr<QParallelAnimationGroup>(new QParallelAnimationGroup);
 
     if (v != destVertex)
-        parallelAnimation->addAnimation(create(v, "color", Vertex::Init, Vertex::Visited,2000));
+        animationGroup->addAnimation(create(v, "color", Vertex::Init, Vertex::Visited));
+        //parallelAnimation->addAnimation(create(v, "color", Vertex::Init, Vertex::Visited,2000));
     foreach (Edge *e, v->outEdges())
     {
         if (e->destVertex() == v)
         {
             e->setZValue(1000.0);
-            parallelAnimation->addAnimation(create(e, "state", Edge::Init, Edge::InPath,2000));
+            animationGroup->addAnimation(create(e, "state", Edge::Init, Edge::InPath));
+            //parallelAnimation->addAnimation(create(e, "state", Edge::Init, Edge::InPath,2000));
             break;
         }
     }
 
-    animationList << parallelAnimation;
+    //animationList << parallelAnimation;
 
 }

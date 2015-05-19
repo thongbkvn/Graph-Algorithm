@@ -1,9 +1,11 @@
 #ifndef BFS_H
 #define BFS_H
 #include "algorithm.h"
+#include <QSequentialAnimationGroup>
 class MainWindow;
 class Edge;
 class Vertex;
+
 
 #include "edge.h"
 
@@ -20,6 +22,8 @@ protected:
 private:
     void BFSVertex(Vertex *v);
     void discoverVertex(Vertex *v);
+
+    QSequentialAnimationGroup *animationGroup;
 
 };
 

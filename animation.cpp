@@ -4,7 +4,7 @@ QPropertyAnimation *create(QObject *object,
                     const QByteArray& propertyName,
                     QVariant const &startValue,
                     QVariant const &endValue,
-                    int duration = 2000)
+                    int duration = 500)
 {
     QPropertyAnimation *anim = new QPropertyAnimation(object, propertyName);
     anim->setDuration(duration);
