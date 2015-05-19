@@ -22,6 +22,12 @@ Edge::Edge(Vertex *sourceVertex, Vertex *destVertex)
     adjust();
 }
 
+void Edge::setState(EdgeState state)
+{
+    edgeState = state;
+    update();
+}
+
 Vertex *Edge::sourceVertex() const
 {
     return source;

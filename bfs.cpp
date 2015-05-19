@@ -18,6 +18,11 @@ BFSAnimation::BFSAnimation(MainWindow *mainWindow):Algorithm(mainWindow) {}
 void BFSAnimation::generateAnimationList()
 {
     animationGroup = new QSequentialAnimationGroup;
+
+    foreach (Vertex *v, vertexList) {
+        v->setColor(Vertex::Init);
+        v->setAssociate(0);
+    }
     foreach (Vertex *v, vertexList)
         if (!v->associate())
             BFSVertex(v);
@@ -28,7 +33,7 @@ void BFSAnimation::BFSVertex(Vertex *v)
 {
     Vertex::interconnect++;
     v->setAssociate(Vertex::interconnect);
-
+    animationGroup->addAnimation(create(v, "color", Vertex::Init, Vertex::Visited));
     std::queue<Vertex *> BFSQueue;
     BFSQueue.push(v);
 
@@ -37,16 +42,18 @@ void BFSAnimation::BFSVertex(Vertex *v)
         Vertex *vertex = BFSQueue.front();
         BFSQueue.pop();
 
-        discoverVertex(vertex);
+        //discoverVertex(vertex);
 
         qDebug() << vertex->getId() << " -> ";
 
         for (Edge *e : vertex->outEdges())
             if (e->destVertex()->associate() == 0)
             {
+                animationGroup->addAnimation(create(e->destVertex(), "color", Vertex::Init, Vertex::Visited));
                 e->destVertex()->setAssociate(Vertex::interconnect);
                 BFSQueue.push(e->destVertex());
             }
+        animationGroup->addAnimation(create(vertex, "color", Vertex::Visited, Vertex::Discovered));
     }
 
 }
@@ -56,7 +63,7 @@ Edge* BFSAnimation::newEdge(Vertex *source, Vertex *dest)
     return new Edge(source, dest);
     return NULL;
 }
-
+/*
 void BFSAnimation::discoverVertex(Vertex *v)
 {
     if (v == sourceVertex)
@@ -81,3 +88,5 @@ void BFSAnimation::discoverVertex(Vertex *v)
     //animationList << parallelAnimation;
 
 }
+
+*/

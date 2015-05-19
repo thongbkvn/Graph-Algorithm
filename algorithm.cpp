@@ -3,6 +3,7 @@
 #include "edge.h"
 #include "bfs.h"
 #include "vertex.h"
+#include "dfs.h"
 
 #include <QAction>
 #include <QIcon>
@@ -70,6 +71,8 @@ Algorithm* Algorithm::getAlgorithm(AlgType algtype,  MainWindow *mainWindow)
     case BFS:
         return new BFSAnimation(mainWindow);
         break;
+    case DFS:
+        return new DFSAnimation(mainWindow);
     default:
         return NULL;
         break;

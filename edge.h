@@ -25,7 +25,7 @@ public:
     enum EdgeState {Init, Relaxed, InPath, Error};
     static QColor EdgeColor[4];
     EdgeState state() const { return edgeState;}
-    void setState(EdgeState state) {edgeState = state;}
+    void setState(EdgeState state);
 
 protected:
     QRectF boundingRect() const Q_DECL_OVERRIDE;

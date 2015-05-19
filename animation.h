@@ -8,6 +8,6 @@ QPropertyAnimation *create(QObject *object,
                     const QByteArray& propertyName,
                     QVariant const &startValue,
                     QVariant const &endValue,
-                    int duration = 200);
+                    int duration = 1000);
 
 #endif

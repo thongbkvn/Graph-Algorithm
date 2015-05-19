@@ -21,7 +21,7 @@ protected:
     void generateAnimationList() override;
 private:
     void BFSVertex(Vertex *v);
-    void discoverVertex(Vertex *v);
+    //void discoverVertex(Vertex *v);
 
     QSequentialAnimationGroup *animationGroup;
 

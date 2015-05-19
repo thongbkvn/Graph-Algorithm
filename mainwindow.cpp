@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    algorithm = Algorithm::getAlgorithm(Algorithm::BFS, this);
+    algorithm = Algorithm::getAlgorithm(Algorithm::DFS, this);
     ui->setupUi(this);
     modeActionGroup = new QActionGroup(this);
     modeActionGroup->addAction(ui->actionSelect);

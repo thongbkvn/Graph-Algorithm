@@ -56,14 +56,16 @@ SOURCES       = edge.cpp \
 		graphscene.cpp \
 		algorithm.cpp \
 		bfs.cpp \
-		animation.cpp qrc_images.cpp \
+		animation.cpp \
+		dfs.cpp qrc_images.cpp \
 		moc_edge.cpp \
 		moc_vertex.cpp \
 		moc_graphwidget.cpp \
 		moc_mainwindow.cpp \
 		moc_graphscene.cpp \
 		moc_algorithm.cpp \
-		moc_bfs.cpp
+		moc_bfs.cpp \
+		moc_dfs.cpp
 OBJECTS       = edge.o \
 		main.o \
 		vertex.o \
@@ -73,6 +75,7 @@ OBJECTS       = edge.o \
 		algorithm.o \
 		bfs.o \
 		animation.o \
+		dfs.o \
 		qrc_images.o \
 		moc_edge.o \
 		moc_vertex.o \
@@ -80,7 +83,8 @@ OBJECTS       = edge.o \
 		moc_mainwindow.o \
 		moc_graphscene.o \
 		moc_algorithm.o \
-		moc_bfs.o
+		moc_bfs.o \
+		moc_dfs.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/shell-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -147,7 +151,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		graphscene.h \
 		algorithm.h \
 		bfs.h \
-		animation.h edge.cpp \
+		animation.h \
+		dfs.h edge.cpp \
 		main.cpp \
 		vertex.cpp \
 		graphwidget.cpp \
@@ -155,7 +160,8 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		graphscene.cpp \
 		algorithm.cpp \
 		bfs.cpp \
-		animation.cpp
+		animation.cpp \
+		dfs.cpp
 QMAKE_TARGET  = graph_algorithm
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = graph_algorithm
@@ -330,8 +336,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents images.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents edge.h vertex.h graphwidget.h mainwindow.h graphscene.h algorithm.h bfs.h animation.h $(DISTDIR)/
-	$(COPY_FILE) --parents edge.cpp main.cpp vertex.cpp graphwidget.cpp mainwindow.cpp graphscene.cpp algorithm.cpp bfs.cpp animation.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents edge.h vertex.h graphwidget.h mainwindow.h graphscene.h algorithm.h bfs.h animation.h dfs.h $(DISTDIR)/
+	$(COPY_FILE) --parents edge.cpp main.cpp vertex.cpp graphwidget.cpp mainwindow.cpp graphscene.cpp algorithm.cpp bfs.cpp animation.cpp dfs.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents mainwindow.ui $(DISTDIR)/
 
 
@@ -390,9 +396,9 @@ qrc_images.cpp: images.qrc \
 		images/italic.png
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name images images.qrc -o qrc_images.cpp
 
-compiler_moc_header_make_all: moc_edge.cpp moc_vertex.cpp moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp moc_algorithm.cpp moc_bfs.cpp
+compiler_moc_header_make_all: moc_edge.cpp moc_vertex.cpp moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp moc_algorithm.cpp moc_bfs.cpp moc_dfs.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_edge.cpp moc_vertex.cpp moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp moc_algorithm.cpp moc_bfs.cpp
+	-$(DEL_FILE) moc_edge.cpp moc_vertex.cpp moc_graphwidget.cpp moc_mainwindow.cpp moc_graphscene.cpp moc_algorithm.cpp moc_bfs.cpp moc_dfs.cpp
 moc_edge.cpp: edge.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include edge.h -o moc_edge.cpp
 
@@ -415,6 +421,10 @@ moc_bfs.cpp: algorithm.h \
 		edge.h \
 		bfs.h
 	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include bfs.h -o moc_bfs.cpp
+
+moc_dfs.cpp: algorithm.h \
+		dfs.h
+	/usr/lib/x86_64-linux-gnu/qt5/bin/moc $(DEFINES) -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64 -I/home/thongbkvn/Graph-Algorithm -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/4.9 -I/usr/include/x86_64-linux-gnu/c++/4.9 -I/usr/include/c++/4.9/backward -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/4.9/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include dfs.h -o moc_dfs.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -470,7 +480,8 @@ algorithm.o: algorithm.cpp algorithm.h \
 		mainwindow.h \
 		edge.h \
 		bfs.h \
-		vertex.h
+		vertex.h \
+		dfs.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o algorithm.o algorithm.cpp
 
 bfs.o: bfs.cpp bfs.h \
@@ -483,6 +494,14 @@ bfs.o: bfs.cpp bfs.h \
 
 animation.o: animation.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o animation.o animation.cpp
+
+dfs.o: dfs.cpp dfs.h \
+		algorithm.h \
+		mainwindow.h \
+		edge.h \
+		vertex.h \
+		animation.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dfs.o dfs.cpp
 
 qrc_images.o: qrc_images.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp
@@ -507,6 +526,9 @@ moc_algorithm.o: moc_algorithm.cpp
 
 moc_bfs.o: moc_bfs.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_bfs.o moc_bfs.cpp
+
+moc_dfs.o: moc_dfs.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_dfs.o moc_dfs.cpp
 
 ####### Install
 

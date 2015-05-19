@@ -8,7 +8,8 @@ HEADERS += \
     graphscene.h \
     algorithm.h \
     bfs.h \
-    animation.h
+    animation.h \
+    dfs.h
 
 SOURCES += \
         edge.cpp \
@@ -19,7 +20,8 @@ SOURCES += \
     graphscene.cpp \
     algorithm.cpp \
     bfs.cpp \
-    animation.cpp
+    animation.cpp \
+    dfs.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/graph_algorithm
