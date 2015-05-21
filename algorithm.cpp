@@ -50,10 +50,10 @@ void Algorithm::createToolBar()
 {
 
     animationToolBar = new QToolBar(tr("Animation"), mainWindow);
-    animationToolBar->addAction(prevAction);
+    //animationToolBar->addAction(prevAction);
     animationToolBar->addAction(playAction);
-    animationToolBar->addAction(nextAction);
-    animationToolBar->addAction(stopAction);
+    //animationToolBar->addAction(nextAction);
+    //animationToolBar->addAction(stopAction);
 
 
     mainWindow->addToolBar(animationToolBar);
@@ -176,6 +176,7 @@ void Algorithm::finishAnimation()
 void Algorithm::play()
 {
 
+    resetState();
     generateAnimationList();
     qDebug() << "Algorithm Play";
     if (!isStarted)
@@ -290,8 +291,11 @@ void Algorithm::prev() {
 
 void Algorithm::stop() {
     qDebug() << "Algorithm Stop";
+
+    resetState();
     killTimer(timerId);
     animationList.clear();
+
 
     isStarted = false;
 
@@ -304,4 +308,16 @@ void Algorithm::stop() {
     stopAction->setEnabled(false);
 
     //mainWindow->enableEditing();
+}
+
+void Algorithm::resetState()
+{
+    foreach (Vertex *v, vertexList) {
+        v->setColor(Vertex::Init);
+        v->setAssociate(0);
+        foreach (Edge *e, v->outEdges())
+        {
+            e->setState(Edge::Init);
+        }
+    }
 }

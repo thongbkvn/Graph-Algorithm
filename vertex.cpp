@@ -98,7 +98,7 @@ void Vertex::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     if (isSelected())
     {
         painter->setBrush(Qt::NoBrush);
-        painter->setPen(QPen(Qt::red, 1, Qt::DashLine));
+        painter->setPen(QPen(Qt::red, 2, Qt::DashLine));
         painter->drawRect(-11, -11, 22, 22);
     }
 }

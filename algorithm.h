@@ -36,6 +36,8 @@ public:
     virtual AlgType type() const = 0;
 
     friend class GraphScene;
+
+    void resetState();
 public slots:
     void setSource();
     void setDest();

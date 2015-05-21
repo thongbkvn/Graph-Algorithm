@@ -19,10 +19,6 @@ void BFSAnimation::generateAnimationList()
 {
     animationGroup = new QSequentialAnimationGroup;
 
-    foreach (Vertex *v, vertexList) {
-        v->setColor(Vertex::Init);
-        v->setAssociate(0);
-    }
     foreach (Vertex *v, vertexList)
         if (!v->associate())
             BFSVertex(v);
@@ -50,6 +46,7 @@ void BFSAnimation::BFSVertex(Vertex *v)
             if (e->destVertex()->associate() == 0)
             {
                 animationGroup->addAnimation(create(e->destVertex(), "color", Vertex::Init, Vertex::Visited));
+                animationGroup->addAnimation(create(e, "state", Edge::Init, Edge::InPath));
                 e->destVertex()->setAssociate(Vertex::interconnect);
                 BFSQueue.push(e->destVertex());
             }

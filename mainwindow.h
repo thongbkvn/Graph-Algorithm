@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 #include <QActionGroup>
-
+#include <algorithm.h>
 class GraphScene;
 class GraphWidget;
-class Algorithm;
+
 namespace Ui {
 class MainWindow;
 }
@@ -16,7 +16,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(Algorithm::AlgType algo,QWidget *parent = 0);
     ~MainWindow();
 
 private slots:

@@ -6,11 +6,11 @@
 #include "algorithm.h"
 #include <QDebug>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(Algorithm::AlgType algType, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    algorithm = Algorithm::getAlgorithm(Algorithm::DFS, this);
+    algorithm = Algorithm::getAlgorithm(Algorithm::BFS, this);
     ui->setupUi(this);
     modeActionGroup = new QActionGroup(this);
     modeActionGroup->addAction(ui->actionSelect);

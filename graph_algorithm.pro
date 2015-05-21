@@ -9,7 +9,8 @@ HEADERS += \
     algorithm.h \
     bfs.h \
     animation.h \
-    dfs.h
+    dfs.h \
+    dialog.h
 
 SOURCES += \
         edge.cpp \
@@ -21,14 +22,16 @@ SOURCES += \
     algorithm.cpp \
     bfs.cpp \
     animation.cpp \
-    dfs.cpp
+    dfs.cpp \
+    dialog.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/widgets/graphicsview/graph_algorithm
 INSTALLS += target
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    dialog.ui
 
 RESOURCES += \
     images.qrc

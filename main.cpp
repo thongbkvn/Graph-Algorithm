@@ -1,5 +1,5 @@
 #include "graphwidget.h"
-
+#include "dialog.h"
 #include <QApplication>
 #include <QTime>
 #include <QMainWindow>
@@ -8,10 +8,14 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    app.setApplicationName("Graph Algorithm");
+    app.setApplicationDisplayName("Graph Algorithm - Pham Van Thong");
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
-
-    MainWindow *mainWindow = new MainWindow;
-
-    mainWindow->show();
+    Dialog dialog;
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        MainWindow *mainWindow = dialog.createMainWindow();
+        mainWindow->show();
+    }
     return app.exec();
 }

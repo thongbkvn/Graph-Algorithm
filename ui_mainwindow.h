@@ -95,7 +95,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Graph Algorithm - Pham Van Thong", 0));
         actionSelect->setText(QApplication::translate("MainWindow", "Select", 0));
 #ifndef QT_NO_TOOLTIP
         actionSelect->setToolTip(QApplication::translate("MainWindow", "Select", 0));
