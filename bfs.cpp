@@ -17,6 +17,7 @@ BFSAnimation::BFSAnimation(MainWindow *mainWindow):Algorithm(mainWindow) {}
 
 void BFSAnimation::generateAnimationList()
 {
+    qDebug() << "BFSAnimation";
     animationGroup = new QSequentialAnimationGroup;
 
     foreach (Vertex *v, vertexList)

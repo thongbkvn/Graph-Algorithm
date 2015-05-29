@@ -16,6 +16,7 @@ void DFSAnimation::generateAnimationList()
 {
     animationGroup = new QSequentialAnimationGroup;
     Vertex::interconnect = 0;
+    qDebug() << "DFS Animation";
 
 
     foreach (Vertex *v, vertexList) {

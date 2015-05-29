@@ -21,9 +21,7 @@ MainWindow* Dialog::createMainWindow()
 
     if (ui->BFSButton->isChecked())
         algo = Algorithm::BFS;
-    else if (ui->DFSButton->isChecked())
-        algo = Algorithm::DFS;
     else
-        algo = Algorithm::BFS;
+        algo = Algorithm::DFS;
     return new MainWindow(algo);
 }

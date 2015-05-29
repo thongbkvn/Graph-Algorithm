@@ -67,6 +67,7 @@ QToolBar* Algorithm::getAnimationToolBar()
 
 Algorithm* Algorithm::getAlgorithm(AlgType algtype,  MainWindow *mainWindow)
 {
+    algtype = DFS;
     switch (algtype) {
     case BFS:
         return new BFSAnimation(mainWindow);
